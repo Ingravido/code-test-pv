@@ -5,22 +5,20 @@ function Count (input) {
 
   let onesSum = 0
   const oneBitFoundList = []
-  const binaryRepresentation = intToBinaryString(input);
+  const binaryRepresentation = intToBinaryString(input)
 
-  [...binaryRepresentation].forEach(getSumAndOnesPositions)
+  const binaryRepresentationArr = [...binaryRepresentation]
+  let position = binaryRepresentationArr.length - 1
 
-  function getSumAndOnesPositions (bitString, position) {
+  do {
+    const bitString = binaryRepresentationArr[position]
     const bitNumber = Number(bitString)
     onesSum += bitNumber
-    storeIfOneInReversedOrder(bitNumber, position)
-  }
-
-  function storeIfOneInReversedOrder (bitNumber, position) {
     if (bitNumber === 1) {
       const reversedPosition = (binaryRepresentation.length - 1) - position
-      oneBitFoundList.unshift(reversedPosition)
+      oneBitFoundList.push(reversedPosition)
     }
-  }
+  } while (--position >= 0)
 
   return [onesSum, ...oneBitFoundList]
 }
@@ -30,3 +28,5 @@ function intToBinaryString (input) {
 }
 
 module.exports = { Count }
+
+
