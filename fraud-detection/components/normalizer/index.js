@@ -8,6 +8,10 @@ function normalize (orders) {
 }
 
 function normalizeEmail (order) {
+  if (!order.email || order.email.length === 0) {
+    return
+  }
+
   let [username, domain] = order.email.split('@')
 
   const atIndex = username.indexOf('+')
@@ -29,13 +33,24 @@ function removeDotAndDropPlusSignPart (firstPartOfEmailAddr, atIndex) {
 }
 
 function normalizeStreet (order) {
-  // Normalize street
-  order.street = order.street.replace('st.', 'street').replace('rd.', 'road')
+  if (!order.street || order.street.length === 0) {
+    return
+  }
+
+  order.street = order.street
+    .replace('st.', 'street')
+    .replace('rd.', 'road')
 }
 
 function normalizeState (order) {
-  // Normalize state
-  order.state = order.street.replace('il', 'illinois').replace('ca', 'california').replace('ny', 'new york')
+  if (!order.state || order.state.length === 0) {
+    return
+  }
+
+  order.state = order.state
+    .replace('il', 'illinois')
+    .replace('ca', 'california')
+    .replace('ny', 'new york')
 }
 
 module.exports = { normalize }
