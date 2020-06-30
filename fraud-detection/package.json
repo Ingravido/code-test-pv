@@ -4,8 +4,8 @@
   "description": "Payvision challenge (JavaScript): Refactoring - Fraud detection",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/FraudRadar.test.js",
-    "test-coverage": "nyc --reporter=text mocha",
+    "test": "mocha test/ --recursive",
+    "test-coverage": "nyc --reporter=text mocha --recursive",
     "lint": "eslint ."
   },
   "author": "Diego T. <d.torres@payvision.com>",
@@ -21,7 +21,8 @@
     "eslint-plugin-standard": "^3.0.1",
     "mocha": "^4.1.0",
     "nyc": "^15.1.0",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "unroll": "^1.6.0"
   },
   "config": {
     "commitizen": {
