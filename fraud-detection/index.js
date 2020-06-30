@@ -1,28 +1,11 @@
 const fileReader = require('./components/file-reader')
+const normalizer = require('./components/normalizer')
 
 function Check (filePath) {
   // READ FRAUD LINES
   let fraudResults = []
   const orders = parseOrdersFromFilePath(filePath)
-
-  // NORMALIZE //TODO: EXTRACT TO COMPONENT //DECORATOR? //APPLY DECORATORS CON REDUCE
-  for (let order of orders) {
-    // Normalize email
-    let aux = order.email.split('@')
-    let atIndex = aux[0].indexOf('+')
-
-    // refact in order to leave clear uniray
-    // enforce aux[0]
-    aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
-
-    order.email = aux.join('@')
-
-    // Normalize street
-    order.street = order.street.replace('st.', 'street').replace('rd.', 'road')
-
-    // Normalize state
-    order.state = order.street.replace('il', 'illinois').replace('ca', 'california').replace('ny', 'new york')
-  }
+  normalizer.normalize(orders)
 
   // CHECK FRAUD //TODO: EXTRACT TO COMPONENT
   for (let i = 0; i < orders.length; i++) {
