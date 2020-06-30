@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha PositiveBitCounter.test.js",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "benchmark": "node ./benchmark/index.js"
   },
   "author": "Diego T. <d.torres@payvision.com>",
   "license": "ISC",
