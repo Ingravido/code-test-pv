@@ -12,7 +12,7 @@ function Check (filePath) {
     let atIndex = aux[0].indexOf('+')
 
     // refact in order to leave clear uniray
-    // blindar aux[0]
+    // enforce aux[0]
     aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
 
     order.email = aux.join('@')
@@ -58,12 +58,12 @@ function Check (filePath) {
   return fraudResults
 }
 
-function ordersParserFromCSVLines (lines) {
+function parseOrdersFromCSVLines (lines) {
   const orders = []
 
   for (let line of lines) {
     // destruc items ?
-    // blindar items[x]
+    // enforce items[x]
     let items = line.split(',')
     let order = {
       orderId: Number(items[0]),
@@ -83,7 +83,7 @@ function ordersParserFromCSVLines (lines) {
 
 function parseOrdersFromFilePath (filePath) {
   const lines = fileReader.readFileLinesFromFilePath(filePath)
-  return ordersParserFromCSVLines(lines)
+  return parseOrdersFromCSVLines(lines)
 }
 
 module.exports = { Check }
