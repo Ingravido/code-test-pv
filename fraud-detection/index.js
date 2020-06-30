@@ -3,9 +3,9 @@ const normalizer = require('./components/normalizer')
 
 function Check (filePath) {
   // READ FRAUD LINES
-  let fraudResults = []
   const orders = parseOrdersFromFilePath(filePath)
   normalizer.normalize(orders)
+  let fraudResults = []
 
   // CHECK FRAUD //TODO: EXTRACT TO COMPONENT
   for (let i = 0; i < orders.length; i++) {
