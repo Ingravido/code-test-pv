@@ -2,27 +2,8 @@ const fileReader = require('./components/file-reader')
 
 function Check (filePath) {
   // READ FRAUD LINES
-  let orders = []
   let fraudResults = []
-
-  const lines = fileReader.readFileLinesFromFilePath(filePath)
-
-  for (let line of lines) {
-    // destruc items ?
-    // blindar items[x]
-    let items = line.split(',')
-    let order = {
-      orderId: Number(items[0]),
-      dealId: Number(items[1]),
-      email: items[2].toLowerCase(),
-      street: items[3].toLowerCase(),
-      city: items[4].toLowerCase(),
-      state: items[5].toLowerCase(),
-      zipCode: items[6],
-      creditCard: items[7]
-    }
-    orders.push(order)
-  }
+  const orders = parseOrdersFromFilePath(filePath)
 
   // NORMALIZE //TODO: EXTRACT TO COMPONENT //DECORATOR? //APPLY DECORATORS CON REDUCE
   for (let order of orders) {
@@ -75,6 +56,34 @@ function Check (filePath) {
   }
 
   return fraudResults
+}
+
+function ordersParserFromCSVLines (lines) {
+  const orders = []
+
+  for (let line of lines) {
+    // destruc items ?
+    // blindar items[x]
+    let items = line.split(',')
+    let order = {
+      orderId: Number(items[0]),
+      dealId: Number(items[1]),
+      email: items[2].toLowerCase(),
+      street: items[3].toLowerCase(),
+      city: items[4].toLowerCase(),
+      state: items[5].toLowerCase(),
+      zipCode: items[6],
+      creditCard: items[7]
+    }
+    orders.push(order)
+  }
+
+  return orders
+}
+
+function parseOrdersFromFilePath (filePath) {
+  const lines = fileReader.readFileLinesFromFilePath(filePath)
+  return ordersParserFromCSVLines(lines)
 }
 
 module.exports = { Check }
