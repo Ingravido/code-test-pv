@@ -1,6 +1,7 @@
 const email = require('./strategies/email')
 const state = require('./strategies/state')
 const street = require('./strategies/street')
+const identityNormalizer = require('./strategies/indentity')
 
 const normalizers = {email, state, street}
 
@@ -20,7 +21,5 @@ function normalizeFields (order) {
 function getNormalizer (field) {
   return normalizers[field] || identityNormalizer
 }
-
-const identityNormalizer = { normalize: value => value }
 
 module.exports = { normalize }
