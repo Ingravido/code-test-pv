@@ -43,7 +43,7 @@ describe('normalizer', function () {
     ]
   )
 
-  it('should not try to normalize fields that are not coming', function () {
+  it('should not try to normalize fields that are not coming in order', function () {
     const emptyDummyOrder = {}
     normalizer.normalize([emptyDummyOrder])
     assert.ok(emptyDummyOrder)
