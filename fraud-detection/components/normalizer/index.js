@@ -14,7 +14,9 @@ function normalize (orders) {
 function normalizeFields (order) {
   Object.keys(order).forEach(property => {
     const normalizer = getNormalizer(property)
-    order[property] = normalizer.normalize(order[property])
+
+    const isFieldNotEmpty = order[property] || order[property].length !== 0
+    order[property] = isFieldNotEmpty ? normalizer.normalize(order[property]) : order[property]
   })
 }
 

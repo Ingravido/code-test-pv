@@ -1,8 +1,4 @@
 function normalize (email) {
-  if (!email || email.length === 0) {
-    return
-  }
-
   let [username, domain] = email.split('@')
 
   const atIndex = username.indexOf('+')
