@@ -2,7 +2,7 @@ const sinon = require('sinon')
 const ordersParser = require('../../../components/orders-parser')
 const assert = require('assert')
 
-const incompleteOrdersOneGoodReturn = [
+const incompleteOrdersOneGoodLines = [
   '1,1,weird,stuff,,',
   '2,2,rare,order',
   ',,,,,,,,,,,,',
@@ -12,13 +12,8 @@ const incompleteOrdersOneGoodReturn = [
 
 describe('orders-parser', () => {
   it('should protect order parsing ignoring incomplete or weird lines', async () => {
-    // Given
-    const readFileLinesFromFilePath = sinon.stub().returns(incompleteOrdersOneGoodReturn)
-    const fileReaderMock = { readFileLinesFromFilePath }
-    ordersParser.init({ fileReader: fileReaderMock })
-
     // When
-    const result = await ordersParser.parseOrders()
+    const result = await ordersParser.parseOrders(incompleteOrdersOneGoodLines)
 
     // Then
     assert.ok(result)

@@ -2,14 +2,20 @@ const normalizer = require('../../../components/normalizer')
 const assert = require('assert')
 const unroll = require('unroll')
 
+const email = require('../../../components/normalizer/strategies/email')
+const state = require('../../../components/normalizer/strategies/state')
+const street = require('../../../components/normalizer/strategies/street')
+const identityNormalizer = require('../../../components/normalizer/strategies/indentity')
+
 unroll.use(it)
 
 describe('normalizer', () => {
   unroll('Should normalize #field accordingly to #expected',
     (done, testArgs) => {
-      normalizer.normalize([testArgs.inputOrder])
-      assert.ok(testArgs.inputOrder)
-      assert.equal(testArgs.inputOrder[testArgs.field], testArgs.expected)
+      normalizer.init({normalizers: { email, state, street, identityNormalizer }})
+      const normalizedOrder = normalizer.normalize([testArgs.inputOrder])
+      assert.ok(normalizedOrder)
+      assert.equal(normalizedOrder[0][testArgs.field], testArgs.expected)
       done()
     },
     [
