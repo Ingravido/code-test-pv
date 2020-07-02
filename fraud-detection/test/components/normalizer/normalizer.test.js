@@ -4,9 +4,9 @@ const unroll = require('unroll')
 
 unroll.use(it)
 
-describe('normalizer', function () {
+describe('normalizer', () => {
   unroll('Should normalize #field accordingly to #expected',
-    function (done, testArgs) {
+    (done, testArgs) => {
       normalizer.normalize([testArgs.inputOrder])
       assert.ok(testArgs.inputOrder)
       assert.equal(testArgs.inputOrder[testArgs.field], testArgs.expected)
@@ -43,7 +43,7 @@ describe('normalizer', function () {
     ]
   )
 
-  it('should not try to normalize fields that are not coming in order', function () {
+  it('should not try to normalize fields that are not coming in order', () => {
     const emptyDummyOrder = {}
     normalizer.normalize([emptyDummyOrder])
     assert.ok(emptyDummyOrder)
