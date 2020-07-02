@@ -1,0 +1,11 @@
+{
+  "state": {
+    "il": "illinois",
+    "ca": "california",
+    "ny": "new york"
+  },
+  "street": {
+    "st.": "street",
+    "rd.": "road"
+  }
+}

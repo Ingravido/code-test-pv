@@ -1,8 +1,11 @@
+const normalizerConfig = require('../../../config/normalizer/replacements.json')
+
 function normalize (state) {
+  Object.keys(normalizerConfig.state).forEach(key => {
+    state = state.replace(key, normalizerConfig.state[key])
+  })
+
   return state
-    .replace('il', 'illinois')
-    .replace('ca', 'california')
-    .replace('ny', 'new york')
 }
 
 module.exports = { normalize }
