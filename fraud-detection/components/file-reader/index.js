@@ -1,4 +1,8 @@
-const fs = require('fs')
+let fs
+
+function init (dependencies) {
+  ({ fs } = dependencies)
+}
 
 async function readFileLinesFromFilePath (filePath) {
   let fileContent
@@ -14,4 +18,4 @@ async function readFileLinesFromFilePath (filePath) {
   return fileContent.split('\n')
 }
 
-module.exports = { readFileLinesFromFilePath }
+module.exports = { init, readFileLinesFromFilePath }

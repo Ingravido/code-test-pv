@@ -1,9 +1,14 @@
-const email = require('./strategies/email')
-const state = require('./strategies/state')
-const street = require('./strategies/street')
-const identityNormalizer = require('./strategies/indentity')
+let email
+let state
+let street
+let identityNormalizer
 
-const normalizers = {email, state, street}
+let normalizers
+
+function init (dependencies) {
+  ({email, state, street, identityNormalizer} = dependencies)
+  normalizers = { email, state, street }
+}
 
 function normalize (orders) {
   for (const order of orders) {
@@ -24,4 +29,4 @@ function getNormalizer (field) {
   return normalizers[field] || identityNormalizer
 }
 
-module.exports = { normalize }
+module.exports = { init, normalize }

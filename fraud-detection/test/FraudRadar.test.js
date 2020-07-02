@@ -1,16 +1,29 @@
 const FraudRadar = require('../index.js')
 const path = require('path')
 const assert = require('assert')
+const baseConfig = require('../config/base-config.json')
 
 describe('Fraud Radar', function () {
   it('Should process the one line file', async () => {
-    const result = await FraudRadar.Check(path.join(__dirname, 'fixtures', 'OneLineFile.txt'))
+    // Given
+    baseConfig.ordersFilePath = path.join(__dirname, 'fixtures', 'OneLineFile.txt')
+
+    // When
+    const result = await FraudRadar.Check()
+
+    // Then
     assert.ok(result)
     assert.equal(result.length, 0)
   })
 
   it('Should process the two line file in which the second is fraudulent', async () => {
-    const result = await FraudRadar.Check(path.join(__dirname, 'fixtures', 'TwoLines_FraudulentSecond.txt'))
+    // Given
+    baseConfig.ordersFilePath = path.join(__dirname, 'fixtures', 'TwoLines_FraudulentSecond.txt')
+
+    // When
+    const result = await FraudRadar.Check()
+
+    // Then
     assert.ok(result)
     assert.equal(result.length, 1)
     assert.equal(result[0].isFraudulent, true)
@@ -18,7 +31,13 @@ describe('Fraud Radar', function () {
   })
 
   it('Should process the three line file in which the second is fraudulent', async () => {
-    const result = await FraudRadar.Check(path.join(__dirname, 'fixtures', 'ThreeLines_FraudulentSecond.txt'))
+    // Given
+    baseConfig.ordersFilePath = path.join(__dirname, 'fixtures', 'ThreeLines_FraudulentSecond.txt')
+
+    // When
+    const result = await FraudRadar.Check()
+
+    // Then
     assert.ok(result)
     assert.equal(result.length, 1)
     assert.equal(result[0].isFraudulent, true)
@@ -26,7 +45,13 @@ describe('Fraud Radar', function () {
   })
 
   it('Should process the four line file in which more than one order is fraudulent', async () => {
-    const result = await FraudRadar.Check(path.join(__dirname, 'fixtures', 'FourLines_MoreThanOneFraudulent.txt'))
+    // Given
+    baseConfig.ordersFilePath = path.join(__dirname, 'fixtures', 'FourLines_MoreThanOneFraudulent.txt')
+
+    // When
+    const result = await FraudRadar.Check()
+
+    // Then
     assert.ok(result)
     assert.equal(result.length, 2)
   })

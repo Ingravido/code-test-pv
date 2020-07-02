@@ -1,5 +1,5 @@
 function findFraudulentOrders (orders) {
-  let fraudResults = []
+  const fraudResults = []
   const ordersMap = new Map()
 
   orders.forEach(processOrder)
