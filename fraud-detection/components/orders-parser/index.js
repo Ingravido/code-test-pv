@@ -1,4 +1,8 @@
-const fileReader = require('../file-reader')
+let fileReader
+
+function init (dependencies) {
+  ({ fileReader } = dependencies)
+}
 
 function parseOrdersFromCSVLines (lines) {
   const orders = []
@@ -33,4 +37,4 @@ async function parseOrders (filePath) {
   return parseOrdersFromCSVLines(lines)
 }
 
-module.exports = { parseOrders }
+module.exports = { parseOrders, init }
