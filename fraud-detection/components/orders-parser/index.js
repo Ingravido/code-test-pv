@@ -23,8 +23,8 @@ function parseOrdersFromCSVLines (lines) {
   return orders
 }
 
-function parseOrders (filePath) {
-  const lines = fileReader.readFileLinesFromFilePath(filePath)
+async function parseOrders (filePath) {
+  const lines = await fileReader.readFileLinesFromFilePath(filePath)
   return parseOrdersFromCSVLines(lines)
 }
 
