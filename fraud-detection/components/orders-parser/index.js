@@ -6,18 +6,23 @@ function parseOrdersFromCSVLines (lines) {
   for (let line of lines) {
     const [orderId, dealId, email, street, city, state, zipCode, creditCard] = line.split(',')
 
-    const order = {
-      orderId: Number(orderId),
-      dealId: Number(dealId),
-      email: email.toLowerCase(),
-      street: street.toLowerCase(),
-      city: city.toLowerCase(),
-      state: state.toLowerCase(),
-      zipCode: zipCode,
-      creditCard
-    }
+    const fieldsToCheck = [dealId, email, street, city, state, zipCode, creditCard]
+    const invalidOrder = fieldsToCheck.some(field => typeof field === 'undefined' || field === '')
 
-    orders.push(order)
+    if (!invalidOrder) {
+      const order = {
+        orderId: Number(orderId),
+        dealId: Number(dealId),
+        email: email.toLowerCase(),
+        street: street.toLowerCase(),
+        city: city.toLowerCase(),
+        state: state.toLowerCase(),
+        zipCode: zipCode,
+        creditCard
+      }
+
+      orders.push(order)
+    }
   }
 
   return orders
