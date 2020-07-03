@@ -1,29 +1,19 @@
-function parseOrders (lines) {
-  const orders = []
+function parseOrder (line) {
+  const [orderId, dealId, email, street, city, state, zipCode, creditCard] = line.split(',')
 
-  for (let line of lines) {
-    const [orderId, dealId, email, street, city, state, zipCode, creditCard] = line.split(',')
+  const fieldsToCheck = [dealId, email, street, city, state, zipCode, creditCard]
+  const invalidOrder = fieldsToCheck.some(field => typeof field === 'undefined' || field === '')
 
-    const fieldsToCheck = [dealId, email, street, city, state, zipCode, creditCard]
-    const invalidOrder = fieldsToCheck.some(field => typeof field === 'undefined' || field === '')
-
-    if (!invalidOrder) {
-      const order = {
-        orderId: Number(orderId),
-        dealId: Number(dealId),
-        email: email.toLowerCase(),
-        street: street.toLowerCase(),
-        city: city.toLowerCase(),
-        state: state.toLowerCase(),
-        zipCode: zipCode,
-        creditCard
-      }
-
-      orders.push(order)
-    }
+  return invalidOrder ? false : {
+    orderId: Number(orderId),
+    dealId: Number(dealId),
+    email: email.toLowerCase(),
+    street: street.toLowerCase(),
+    city: city.toLowerCase(),
+    state: state.toLowerCase(),
+    zipCode: zipCode,
+    creditCard
   }
-
-  return orders
 }
 
-module.exports = { parseOrders }
+module.exports = { parseOrder }

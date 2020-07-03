@@ -1,21 +1,10 @@
 let normalizers
 
 function init (dependencies) {
-  ({ normalizers } = dependencies);
+  ({ normalizers } = dependencies)
 }
 
-function normalize (orders) {
-  const normalizedOrders = []
-
-  for (const order of orders) {
-    const normalizedOrder = normalizeFields(order)
-    normalizedOrders.push(normalizedOrder)
-  }
-
-  return normalizedOrders
-}
-
-function normalizeFields (order) {
+function normalize (order) {
   return Object.keys(order).reduce((acc, property) => {
     const normalizer = getNormalizer(property)
 

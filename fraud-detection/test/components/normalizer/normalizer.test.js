@@ -6,17 +6,27 @@ const email = require('../../../components/normalizer/strategies/email')
 const state = require('../../../components/normalizer/strategies/state')
 const street = require('../../../components/normalizer/strategies/street')
 const identityNormalizer = require('../../../components/normalizer/strategies/indentity')
+const normalizerConfig = require('../../../config/normalizer/replacements.json')
 
 unroll.use(it)
 
 describe('normalizer', () => {
   unroll('Should normalize #field accordingly to #expected',
-    (done, testArgs) => {
-      normalizer.init({normalizers: { email, state, street, identityNormalizer }})
-      const normalizedOrder = normalizer.normalize([testArgs.inputOrder])
+    (testArgs) => {
+      // Given
+      state.init({ normalizerConfig })
+      street.init({ normalizerConfig })
+
+      const normalizers = {email, state, street, identityNormalizer}
+      const dependencies = { normalizers }
+      normalizer.init(dependencies)
+
+      // When
+      const normalizedOrder = normalizer.normalize(testArgs.inputOrder)
+
+      // Then
       assert.ok(normalizedOrder)
-      assert.equal(normalizedOrder[0][testArgs.field], testArgs.expected)
-      done()
+      assert.equal(normalizedOrder[testArgs.field], testArgs.expected)
     },
     [
       ['field', 'inputOrder', 'expected'],
@@ -49,7 +59,7 @@ describe('normalizer', () => {
     ]
   )
 
-  it('should not try to normalize fields that are not coming in order', () => {
+  it('should not try to normalize missing fields in an order', () => {
     const emptyDummyOrder = {}
     normalizer.normalize([emptyDummyOrder])
     assert.ok(emptyDummyOrder)

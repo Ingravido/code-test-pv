@@ -1,4 +1,8 @@
-const normalizerConfig = require('../../../config/normalizer/replacements.json')
+let normalizerConfig
+
+function init (dependencies) {
+  ({ normalizerConfig } = dependencies)
+}
 
 function normalize (state) {
   Object.keys(normalizerConfig.state).forEach(key => {
@@ -8,4 +12,4 @@ function normalize (state) {
   return state
 }
 
-module.exports = { normalize }
+module.exports = { init, normalize }

@@ -1,22 +1,30 @@
-const sinon = require('sinon')
 const ordersParser = require('../../../components/orders-parser')
 const assert = require('assert')
+const unroll = require('unroll')
 
-const incompleteOrdersOneGoodLines = [
-  '1,1,weird,stuff,,',
-  '2,2,rare,order',
-  ',,,,,,,,,,,,',
-  '',
-  '4,1,bugs@bunny.com,123 Sesame St.,New York,NY,10011,12345689010'
-]
+unroll.use(it)
 
 describe('orders-parser', () => {
-  it('should protect order parsing ignoring incomplete or weird lines', async () => {
+  unroll('should protect order parsing ignoring incomplete or weird lines', (testArgs) => {
     // When
-    const result = await ordersParser.parseOrders(incompleteOrdersOneGoodLines)
+    const result = ordersParser.parseOrder(testArgs.inputLine)
 
     // Then
-    assert.ok(result)
-    assert.equal(result.length, 1)
-  })
+    assert.deepEqual(result, testArgs.expected)
+  }, [
+    ['inputLine', 'expected'],
+    ['1,1,weird,stuff,,', false],
+    ['2,2,rare,order', false],
+    [',,,,,,,,,,,,', false],
+    ['4,1,bugs@bunny.com,123 Sesame St.,New York,NY,10011,12345689010', {
+      'orderId': 4,
+      'dealId': 1,
+      'email': 'bugs@bunny.com',
+      'street': '123 sesame st.',
+      'city': 'new york',
+      'state': 'ny',
+      'zipCode': '10011',
+      'creditCard': '12345689010'
+    }]
+  ])
 })

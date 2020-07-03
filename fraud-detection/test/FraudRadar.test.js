@@ -55,4 +55,16 @@ describe('Fraud Radar', function () {
     assert.ok(result)
     assert.equal(result.length, 2)
   })
+
+  it('Should process only correct and complete orders', async () => {
+    // Given
+    baseConfig.ordersFilePath = path.join(__dirname, 'fixtures', 'SomeWeirdOrdersAndOneFraudulent.txt')
+
+    // When
+    const result = await FraudRadar.Check()
+
+    // Then
+    assert.ok(result)
+    assert.equal(result.length, 1)
+  })
 })

@@ -15,9 +15,12 @@ const fileReader = require('./components/file-reader')
 
 // Config
 const baseConfig = require('./config/base-config.json')
+const normalizerConfig = require('./config/normalizer/replacements.json')
 
 function bootstrap () {
   fileReader.init({ fs })
+  state.init({ normalizerConfig })
+  street.init({ normalizerConfig })
 
   const normalizers = {email, state, street, identityNormalizer}
   normalizer.init({ normalizers })
@@ -27,12 +30,17 @@ function bootstrap () {
 async function Check () {
   bootstrap()
 
-  const lines = await fileReader.readFileLinesFromFilePath(baseConfig.ordersFilePath)
-  const orders = ordersParser.parseOrders(lines)
-  const parsedOrders = normalizer.normalize(orders)
-  const fraudOrders = fraudChecker.findFraudulentOrders(parsedOrders)
+  const orderLines = await fileReader.readFileLinesFromFilePath(baseConfig.ordersFilePath)
 
-  return fraudOrders
+  const normalizedCorrectOrders = []
+  orderLines.forEach(orderLine => {
+    const parsedOrder = ordersParser.parseOrder(orderLine)
+    if (parsedOrder) {
+      normalizedCorrectOrders.push(normalizer.normalize(parsedOrder))
+    }
+  })
+
+  return fraudChecker.findFraudulentOrders(normalizedCorrectOrders)
 }
 
 module.exports = { Check }
